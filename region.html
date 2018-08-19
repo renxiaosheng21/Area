@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <script src="./jquery-1.11.0.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            //  加载所有的省份
+            $.ajax({
+                type: "get",
+                url: "region_action.php", // type=1表示查询省份
+                data: {"parent_id": "1", "type": "1"},
+                dataType: "json",
+                success: function(data) {
+                    $("#provinces").html("<option value=''>请选择省份</option>");
+                    $.each(data, function(i, item) {
+                        // alert(item.region_id);
+                        $("#provinces").append("<option value='" + item.region_id + "'>" + item.region_name + "</option>");
+                    });
+                }
+            });
+            $("#provinces").change(function() {
+                $.ajax({
+                    type: "get",
+                    url: "region_action.php", // type =2表示查询市
+                    data: {"parent_id": $(this).val(), "type": "2"},
+                    dataType: "json",
+                    success: function(data) {
+                        $("#citys").html("<option value=''>请选择市</option>");
+                        $.each(data, function(i, item) {
+                            $("#citys").append("<option value='" + item.region_id + "'>" + item.region_name + "</option>");
+                        });
+                    }
+                });
+            });
+            $("#citys").change(function() {
+                $.ajax({
+                    type: "get",
+                    url: "region_action.php", // type =2表示查询市
+                    data: {"parent_id": $(this).val(), "type": "3"},
+                    dataType: "json",
+                    success: function(data) {
+                        $("#countys").html("<option value=''>请选择县</option>");
+                        $.each(data, function(i, item) {
+                            $("#countys").append("<option value='" + item.region_id + "'>" + item.region_name + "</option>");
+                        });
+                    }
+                });
+            });
+            //显示地址
+            $("#countys").change(function() {
+                var value = $("#provinces").find("option:selected").text()
+                    + $("#citys").find("option:selected").text()
+                    + $("#countys").find("option:selected").text();
+                // alert(value);
+                $("#region").append("选择的地址是:"+"<input value='" + value + "'>");
+            });
+        });
+    </script>
+
+</head>
+<body>
+<h1 align="center">PHP+Ajax+Mysql省市县三级联动</h1>
+<table align="center" border="1" cellpadding="3" cellspacing="0" width="30%">
+    <tr bgcolor="skyblue">
+        <th>省份</th>
+        <th>市</th>
+        <th>县</th>
+    </tr>
+    <tr style="height: 100px">
+        <th>
+            <select id="provinces">
+                <option value="">请选择省份</option>
+            </select>
+        </th>
+        <th>
+            <select id="citys">
+                <option value="">请选择市</option>
+            </select>
+        </th>
+        <th>
+            <select id="countys">
+                <option value="">请选择县</option>
+            </select><br>
+        </th>
+    </tr>
+</table>
+<h4>
+    <div align="center" id="region"></div></th>
+</h4>
+</body>
+</html>
