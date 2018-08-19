@@ -1,1 +1,1 @@
-使用PHP+MySQL+ajax创建省、市、县三级联动
+使用PHP+MySQL+ajax实现省、市、县三级联动
