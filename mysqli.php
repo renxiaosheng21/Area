@@ -1,7 +1,7 @@
 <?php
 $Host = '127.0.0.1';
 $User = 'root';
-$Pwd = '199503';
+$Pwd = 'pwd';
 $Dbname = 'area';
 
 $mysqli=new mysqli($Host,$User,$Pwd,$Dbname);
